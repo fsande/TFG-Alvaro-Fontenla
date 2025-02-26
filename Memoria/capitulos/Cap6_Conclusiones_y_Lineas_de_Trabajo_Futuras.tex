@@ -1,0 +1,41 @@
+% ---------------------------------------------------
+%
+% Trabajo de Fin de Grado. 
+% Author: Adriano dos Santos Moreira
+% Chapter: Conclusions and Future Lines of Work
+% File: Cap6_Conclusiones_y_Lineas_de_Trabajo_Futuras.tex
+%
+% ----------------------------------------------------
+%
+
+\chapter{Conclusiones y Líneas de Trabajo Futuras} \label{chap:Conclusiones} 
+
+En este capítulo se presentarán las conclusiones alcanzadas tras la realización de este trabajo y discutiremos posibles líneas futuras de trabajo.
+Las conclusiones y resultados obtenidos de este proyecto de investigación y desarrollo pueden resumirse en los siguientes puntos:
+
+\begin{itemize}
+    \item Un primer valor añadido del trabajo realizado ha sido la contextualización y aprendizaje realizado por el estudiante en el ámbito de la computación de altas prestaciones. Dada la escasez de materias relacionadas con este tópico en el Grado en Ingeniería Informática en la Universidad de La Laguna, el estudiante ha tenido que realizar inicialmente un esfuerzo significativo en el aprendizaje de conceptos y técnicas que le eran ajenos.
+    
+    \item Se ha utilizado SYCL como vehículo para elevar el nivel de conocimiento en programación paralela y contextualizar el aprendizaje en HPC. El modelo de programación de SYCL permite el desarrollo de aplicaciones HPC con portabilidad y facilidad, ejecutándose en múltiples plataformas de hardware (CPUs, GPUs, FPGAs) con mínimas modificaciones, simplificando y acelerando el desarrollo.
+    
+    \item Los conocimientos de los aspectos técnicos de SYCL se han adquirido básicamente a través del texto \textit{Data Parallel C++} \cite{Reinders:2023:Data} y la realización del tutorial práctico de \textit{SYCL Academy}\footnote{\href{https://github.com/codeplaysoftware/syclacademy}{{SYCL Academy} \url{https://github.com/codeplaysoftware/syclacademy}}}.
+    
+    \item Se han evaluado diferentes aplicaciones del la colección de benchmarks \textit{HeCBench} utilizando \textit{Verode} como plataforma de desarrollo. A partir de estos experimentos concluimos que SYCL no afecta significativamente al rendimiento de las aplicaciones, posicionándola como una plataforma competitiva en su nicho tecnológico.
+    
+    \item Se ha implementado en SYCL un algoritmo de procesado de imágenes. El algoritmo elegido ha sido una transformación morfológica, pero resulta inmediato utilizarlo como punto de partida para otros algoritmos similares.
+    Los resultados computacionales obtenidos al procesar imágenes de tamaño realista para ciertas aplicaciones industriales muestran que SYCL es una aproximación relevante para este tipo de tareas cuando el número de imágenes a procesar es elevado.
+    
+\end{itemize}
+
+Existen algunas líneas de trabajo futuras abiertas a exploración que podrían ayudar a ampliar y profundizar en los beneficios y aplicaciones de SYCL en el ámbito de la computación de altas prestaciones.
+Son las siguientes:
+
+ \begin{enumerate}
+     \item Optimizar algoritmo de erosión implementado en SYCL.
+     \item Implementación de otros algoritmos paralelos de procesamiento de imágenes utilizando SYCL.
+     \item Investigación y puesta en práctica de técnicas avanzadas de optimización para aplicaciones SYCL.
+     \item Implementación y benchmarking para diferentes back-ends y/o hardware de destino empleando SYCL. Debido a las limitaciones en cuanto al hardware disponible, las únicas plataformas con las que se ha experimentado son CPU y GPU. Sería interesante extender los experimentos realizados a otras plataformas.
+ \end{enumerate}
+
+
+

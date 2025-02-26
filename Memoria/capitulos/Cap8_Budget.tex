@@ -1,0 +1,111 @@
+% ---------------------------------------------------
+%
+% Trabajo de Fin de Grado. 
+% Author: Adriano dos Santos Moreira
+% Chapter: Budget
+% File: Cap7_Budget.tex
+%
+% ----------------------------------------------------
+%
+
+\chapter{Budget} \label{chap:Budget} 
+
+In this chapter we will present an estimated budget for the development and execution of a complex SYCL project on an HPC platform.
+
+This budget has been prepared with a company like Wooptix\footnote{\url{https://wooptix.com}} in mind, which has a strong technology profile and experience in developing CUDA applications for image processing. The following is a quotation for the adoption of SYCL by a company with such a profile.
+
+The main considerations in calculating the cost of this project are the cost of working hours, which includes preparing the development environment, coding the actual SYCL program, writing documentation and testing.
+There is also the cost of the execution platform, which can vary greatly depending on the computing power required and the hardware purchased.
+
+\vspace{5mm}
+\textsl{\textbf{{Working hours}}}
+\vspace{2mm}
+
+The cost of working hours is estimated to be 12,46€ per hour.
+This is the average price of a junior full-stack developer in Spain based on the data given by web platforms that collect and display information related to job salaries.
+These platforms are: Glassdoor\footnote{\href{https://www.glassdoor.es/Sueldos/espa\%C3\%B1a-desarrollador-full-stack-junior-sueldo-SRCH_IL.0,6_IN219_KO7,38.htm}{\texttt{https://www.glassdoor.es/Sueldos/espa\%C3\%B1a-desarrollador-full-stack-\\junior-sueldo-SRCH\_IL.0,6\_IN219\_KO7,38.htm}}} (\(10,94\text{\textit{€}}/h\)), Talent\footnote{\url{https://es.talent.com/salary?job=desarrollador+full+stack+junior}} (\(12,44\text{\textit{€}}/h\)) and Jooble\footnote{\url{https://es.jooble.org/salary/desarrollador-full-stack-junior\#hourly}} (\(13,99\text{\textit{€}}/h\)), whose average value is 12,46\text{\textit{€}}.
+
+For this project, the weekly working time is 40 hours, with a total time of 8 weeks.
+This time would be divided into the following tasks:
+\begin{itemize}
+    \item \textbf{Preparation}: Getting everything ready in the working environment includes server/machine configuration and the installation of SYCL along with the proper compilation back-ends and other additional tools.
+    This process may take 16 hours of work, which translates to \(16h \times 12,46\text{\textit{€}}/h = 199,36\text{\textit{€}}\).
+    \item \textbf{Project design}: Planning the code and creating the basic structure of the program might require 24 hours of work time, which costs: \(24h \times 12,46\text{\textit{€}}/h = 299,04\text{\textit{€}}\).
+    \item \textbf{Project development}: Involves programming and also writing the associated documentation and tests.
+    This is the longest process lasting about 7 weeks, costing  \(40h/week \times 7 weeks \times 12,46\text{\textit{€}}/h = 3488,80\text{\textit{€}}\)
+\end{itemize}
+
+In total, the cost of working hours is \(199,36\text{\textit{€}} +  299,04\text{\textit{€}} + 3488,80\text{\textit{€}} = \mathbf{3987.20}\text{\textit{€}}\).
+
+\vspace{5mm}
+\textsl{\textbf{{Execution platform}}}
+\vspace{2mm}
+
+We have two possible options for acquiring hardware.
+The first one to consider is to purchase all the necessary equipment, which would be composed by the following:
+\begin{itemize}
+    \item \textbf{Basic server}: A pre-built server with all the essentials like the \textit{Smart Selection PowerEdge T150 Tower Server}\footnote{\url{https://www.dell.com/es-es/shop/enterprise-products/servidor-torre-t150-intel/spd/poweredge-t150/pet1501a}} from Dell.
+    This is a customizable server that can be personalized before buying.
+    The base cost is 868,88€, coming with an Intel\textsuperscript{®} Pentium\textsuperscript{®} CPU and 1TB of HDD storage.
+    For better performance, switching the CPU for an Intel\textsuperscript{®} Xeon\textsuperscript{®} would cost around 300,00€ and adding 480GB of SSD storage costs around 600,00€.
+    \item \textbf{Accelerator device}: A suitable option for a GPU is the \textit{NVIDIA Tesla L4}\footnote{\url{https://www.amazon.com/-/es/Nvidia-Tensor-Tarjeta-Accellerator-Gr\%C3\%A1ficos/dp/B0CCNM2WY2}} which offers good performance with over 7000 CUDA cores while also having a low-power consumption of 72W.
+    This device costs about 3000,00€.
+\end{itemize}
+
+By these means, the cost of acquiring hardware sums \(868,88\text{\textit{€}} + 300,00\text{\textit{€}} + 600,00\text{\textit{€}} + 3000,00\text{\textit{€}} = 4768,88\text{\textit{€}}\).
+
+Another option is to use cloud computing, where you can rent hardware and resources using virtual machines.
+There are many companies that offer this service, on Table \ref{tbl:cloud-budget} we can see three possible candidates: Google Cloud\footnote{\href{https://cloud.google.com/products/calculator}{{Google Cloud price calculator} \url{https://cloud.google.com/products/calculator}}}, Tencent Cloud\footnote{\href{https://www.tencentcloud.com/pricing/cvm/calculator}{{Tencent Cloud price calculator} \url{https://www.tencentcloud.com/pricing/cvm/calculator}}} and IBM Cloud\footnote{\href{https://cloud.ibm.com/catalog}{{IMB Cloud catalog} \url{https://cloud.ibm.com/catalog}}}.
+For these budgets, we estimated 150 hours for regular testing and 250 hours for experimentation with real or large problem instances.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{1.4cm}|C{3.7cm}|C{3.7cm}|C{3.7cm}|}
+\cline{2-4}
+\multicolumn{1}{c|}{} & \textbf{Google Cloud}  & \textbf{Tencent Cloud}  & \textbf{IBM Cloud}          \\
+\hline
+\multicolumn{1}{|l|}{CPU} & General Purpose "N1" x4 vCPU & 8-core Intel Xeon Skylake 6133 (2.5 GHz) & 16-core Intel Xeon 4110 (2.10 GHz) \\
+\hline
+\multicolumn{1}{|l|}{RAM} & 16 GB          & 40 GB          & 32 GB              \\
+\hline
+\multicolumn{1}{|l|}{Storage} & \multicolumn{2}{c|}{SSD 400 GB}  & SSD 960 GB         \\
+\hline
+\multicolumn{1}{|l|}{GPU} & \multicolumn{3}{c|}{NVIDIA V100}                      \\
+\Xhline{5\arrayrulewidth}
+\multicolumn{1}{|l|}{Price} & 1059,25 €/400h & 1314,73 €/400h & 3183,94 €/2 months \\
+\Xhline{5\arrayrulewidth}
+\end{tabular}
+\caption{Specifications for cloud computing and budget.}
+\label{tbl:cloud-budget}
+\end{table}
+
+To ensure a fair comparison between service providers, a single NVIDIA V100 GPU was chosen as the accelerator unit for each budget.
+
+As we can see, renting a virtual machine is cheaper than buying a new one in this case.
+To guarantee that the performance is acceptable without the price tag going through the roof, we opted to use the Tencent Cloud virtual machine service to supply the hardware.
+
+\begin{table}[h]
+\begin{tabular}{|C{2.1cm}|C{2cm}|C{2.3cm}|C{3.8cm}|C{1.8cm}|}
+\hline
+\multicolumn{3}{|c|}{Working hours} &
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Execution platform\\ (Tencent Cloud)\end{tabular}} &
+  \multirow{2}{*}{Total} \\
+\cline{1-3}
+Preparation &
+  Design &
+  Development &
+   &
+   \\
+\Xhline{5\arrayrulewidth}
+199.36 € &
+  299.04 € &
+  3488.8 € &
+  1314,73 € &
+  5301.93 € \\
+\hline
+\end{tabular}
+\caption{Total budget breakdown.}
+\label{tbl:budget-breakdown}
+\end{table}
+
+Finally, the total budget is shown in Table \ref{tbl:budget-breakdown}, which is the sum of both working hours and execution platform costs, making a total of 5301.93 €.
