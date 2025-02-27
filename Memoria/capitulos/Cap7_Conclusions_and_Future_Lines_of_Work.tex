@@ -1,7 +1,7 @@
 % ---------------------------------------------------
 %
 % Trabajo de Fin de Grado. 
-% Author: Adriano dos Santos Moreira
+% Author: Álvaro Fontenla aluXXX@ull.edu.es
 % Chapter: Conclusions and Future Lines of Work
 % File: Cap7_Conclusions_and_Future_Lines_of_Work.tex
 %
@@ -17,24 +17,7 @@ The conclusions and results obtained from this research and development project 
 \begin{itemize}
     \item A first added value of the work done has been the contextualisation and learning carried out by the student in the field of high performance computing. Given the scarcity of subjects related to this topic in the Degree in Computer Science at the Universidad of La Laguna, the student has initially had to make a significant effort in learning concepts and techniques that were alien to him.
     
-    \item SYCL has been used as a vehicle to raise the level of knowledge in parallel programming and contextualise learning in HPC. The SYCL programming model allows the development of HPC applications with portability and ease, running on multiple hardware platforms (CPUs, GPUs, FPGAs) with minimal modifications, simplifying and accelerating development.
-    
-    \item Knowledge of the technical aspects of SYCL has been acquired mainly through the \textit{Data Parallel C++} \cite{Reinders:2023:Data} text and the completion of the \textit{SYCL Academy}\footnote{\href{https://github.com/codeplaysoftware/syclacademy}{{SYCL Academy} \url{https://github.com/codeplaysoftware/syclacademy}}} practical tutorial.
-    
-    \item Different applications from the \textit{HeCBench} benchmark collection have been evaluated using \textit{Verode} as the development platform. From these experiments we conclude that SYCL does not significantly affect application performance, positioning it as a competitive platform in its technological niche.
-    
-    \item An image processing algorithm has been implemented in SYCL. The chosen algorithm has been a morphological transformation, but it is immediate to use it as a starting point for other similar algorithms.
-    The computational results obtained when processing images of realistic size for certain industrial applications show that SYCL is a relevant approach for this type of task when the number of images to be processed is high.
-    
-\end{itemize}
-
-There are some future lines of work open to exploration that could help to broaden and deepen the benefits and applications of SYCL in the field of high-performance computing.
-They are the following:
-
  \begin{enumerate}
-     \item Optimize the erosion algorithm implemented in SYCL.
-     \item Implementation of other parallel image processing algorithms using SYCL.
-     \item Research and implementation of advanced optimization techniques for SYCL applications.
      \item Implementation and benchmarking for different back-ends and/or target hardware using SYCL. Due to limitations in terms of available hardware, the only platforms that have been experimented with are CPU and GPU. It would be interesting to extend the experiments to other platforms.
  \end{enumerate}
 
