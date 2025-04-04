@@ -1,0 +1,1 @@
+pip install matplotlib numpy rasterio geopandas osmnx shapely pyproj h5py
