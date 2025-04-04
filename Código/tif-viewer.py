@@ -1,4 +1,6 @@
 import rasterio
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 # Cargar imagen
