@@ -26,3 +26,6 @@ plt.axis("off")
 
 plt.tight_layout()
 plt.show()
+
+import numpy as np
+print("Valores únicos en la máscara de edificios:", np.unique(building_mask))
