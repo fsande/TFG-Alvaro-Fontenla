@@ -1,22 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-Estudio Comparativo de Arquitecturas para Segmentación de Carreteras en Imágenes de Teledetección
-Basado en el paper: MSFANet: Multiscale Fusion Attention Network for Road Segmentation
-
-Implementa y compara las siguientes arquitecturas:
-- LinkNet
-- D-LinkNet  
-- HRNet
-- CCNet
-- DANet
-- DBRANet
-- NL-LinkNet
-- MSFANet
-
-Autor: Graduado en Ingeniería Informática - Universidad de La Laguna
-"""
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -35,7 +18,6 @@ from tqdm import tqdm
 import warnings
 warnings.filterwarnings('ignore')
 
-# Importar módulos propios
 try:
     from model_adapter import get_msfanet, get_simple_msfanet
     MODEL_ADAPTER_AVAILABLE = True
@@ -527,8 +509,6 @@ class PerformanceMetrics:
         miou = np.mean(ious)
         
         # Métricas específicas para la clase "road" 
-        # (asumiendo que es la clase 1 en configuración de 2 clases, 
-        # o clase 1 en configuración de 3 clases)
         road_class = 1 if self.num_classes >= 2 else 0
         
         if road_class < len(ious):
@@ -628,7 +608,7 @@ class ComparativeStudy:
                 
                 # Actualizar configuración si es necesario
                 if actual_msi_channels != self.config['msi_channels']:
-                    print(f"⚠️ Actualizando canales MSI: {self.config['msi_channels']} → {actual_msi_channels}")
+                    print(f"Actualizando canales MSI: {self.config['msi_channels']} → {actual_msi_channels}")
                     self.config['msi_channels'] = actual_msi_channels
             
             train_size = int(self.config['train_split'] * total_size)
@@ -763,7 +743,7 @@ class ComparativeStudy:
                 loss = criterion(output, target)
                 print(f"Loss de prueba: {loss.item():.4f}")
             
-            print("✅ Verificación completada. Iniciando entrenamiento...")
+            print("Verificación completada. Iniciando entrenamiento...")
             
             # Entrenamiento
             model.train()
@@ -1177,7 +1157,7 @@ def main():
     config_path = 'config_comparative_study.yaml'
     if not os.path.exists(config_path):
         create_comparative_config(config_path)
-        print(f"✅ Configuración optimizada creada en {config_path}")
+        print(f"Configuración optimizada creada en {config_path}")
     
     # Inicializar estudio
     study = ComparativeStudy(config_path)
