@@ -1,0 +1,21 @@
+{
+  "model_name": "HRNet",
+  "total_training_time_minutes": 8.624190971000008,
+  "avg_epoch_time_seconds": 1.6086550795900136,
+  "avg_batch_time_ms": 12.495768299837664,
+  "avg_forward_time_ms": 2.648443272329738,
+  "avg_backward_time_ms": 8.001683512669539,
+  "avg_validation_time_seconds": 0.5731140178000108,
+  "memory_usage": {
+    "peak_memory_mb": 1192.0244140625,
+    "current_memory_mb": 81.341796875,
+    "cached_memory_mb": 1226.0
+  },
+  "statistics": {
+    "total_epochs": 300,
+    "total_batches": 12000,
+    "forward_time_std": 0.5114808645823028,
+    "backward_time_std": 0.43245969381600613,
+    "batch_time_std": 1.2892346805295305
+  }
+}

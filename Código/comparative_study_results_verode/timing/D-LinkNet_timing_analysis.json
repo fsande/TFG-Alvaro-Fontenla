@@ -1,0 +1,21 @@
+{
+  "model_name": "D-LinkNet",
+  "total_training_time_minutes": 12.055558891966939,
+  "avg_epoch_time_seconds": 2.2535372474292914,
+  "avg_batch_time_ms": 30.405726203074057,
+  "avg_forward_time_ms": 6.351512126003702,
+  "avg_backward_time_ms": 14.667933573946357,
+  "avg_validation_time_seconds": 0.7752500928938388,
+  "memory_usage": {
+    "peak_memory_mb": 620.75830078125,
+    "current_memory_mb": 237.5029296875,
+    "cached_memory_mb": 784.0
+  },
+  "statistics": {
+    "total_epochs": 300,
+    "total_batches": 12000,
+    "forward_time_std": 0.4725974601198153,
+    "backward_time_std": 0.7542254470251128,
+    "batch_time_std": 1.4238104242128473
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "model_name": "CCNet",
+  "total_training_time_minutes": 8.520467033600001,
+  "avg_epoch_time_seconds": 1.5877661983433062,
+  "avg_batch_time_ms": 12.573470392996796,
+  "avg_forward_time_ms": 2.6807561697497326,
+  "avg_backward_time_ms": 8.000238113245814,
+  "avg_validation_time_seconds": 0.5740964338833541,
+  "memory_usage": {
+    "peak_memory_mb": 1192.04296875,
+    "current_memory_mb": 81.3603515625,
+    "cached_memory_mb": 1226.0
+  },
+  "statistics": {
+    "total_epochs": 300,
+    "total_batches": 12000,
+    "forward_time_std": 0.5617324584169083,
+    "backward_time_std": 0.2324624323255827,
+    "batch_time_std": 1.4341948593136522
+  }
+}

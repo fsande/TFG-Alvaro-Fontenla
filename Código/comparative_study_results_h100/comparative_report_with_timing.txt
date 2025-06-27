@@ -1,0 +1,50 @@
+ESTUDIO COMPARATIVO DE ARQUITECTURAS PARA SEGMENTACIÓN DE CARRETERAS
+CON ANÁLISIS TEMPORAL COMPLETO
+================================================================================
+
+CONFIGURACIÓN DEL EXPERIMENTO:
+----------------------------------------
+data_dir: processed_sentinel2
+num_classes: 2
+model_width: 32
+rgb_channels: 3
+msi_channels: 10
+epochs: 5
+batch_size: 4
+learning_rate: 0.001
+weight_decay: 0.0001
+num_workers: 2
+use_class_weights: True
+road_weight: 8.0
+train_split: 0.8
+val_split: 0.2
+seed: 42
+val_frequency: 5
+save_frequency: 10
+device: cuda
+timing_analysis: {'enabled': True, 'detailed_profiling': True, 'memory_monitoring': True, 'inference_iterations': 100}
+sentinel2: {'target_resolution': 10, 'osm_buffer_meters': 5, 'min_road_pixels': 10, 'crop_size': 512, 'max_crops_per_scene': 50}
+augmentation: {'enabled': True, 'rotation': True, 'flip': True, 'brightness': 0.1, 'contrast': 0.1}
+
+RESULTADOS COMPARATIVOS (RENDIMIENTO + TEMPORAL):
+--------------------------------------------------
+Architecture                          Description   IoU (%)  mIoU (%)  F1-Score (%)  Precision (%)  Recall (%)  Parameters (M)  Inference Time (ms)  Training Time (min)  Avg Epoch Time (s)  Avg Batch Time (ms)  Forward Time (ms)  Backward Time (ms)
+     LinkNet Encoder-decoder con skip connections 98.427505 99.159620     99.207517      99.151797   99.263309        6.228066             0.772388             9.198445            1.719636             7.062502           1.444152            3.936525
+       DANet               Dual Attention Network 93.052493 96.295764     96.401229      94.295236   98.603452        0.907010             1.375093             9.111419            1.700853            16.419410           3.944739           10.535076
+   D-LinkNet     LinkNet con dilated convolutions 89.433367 94.379390     94.421974      94.812970   94.034200       10.949730             0.897899             9.155079            1.712453             7.993551           1.691241            4.516946
+       HRNet              High-Resolution Network 85.978394 92.475643     92.460622      90.408142   94.608469        0.870594             0.969648             8.624191            1.608655            12.495768           2.648443            8.001684
+       CCNet        Criss-Cross Attention Network 79.967155 89.248963     88.868605      83.425772   95.071217        0.874786             0.987273             8.520467            1.587766            12.573470           2.680756            8.000238
+     MSFANet  Multiscale Fusion Attention Network 71.550257 84.620842     83.416083      80.883200   86.112741        9.075116             4.737326            10.472418            1.966288            41.189011          12.703004           26.193074
+
+ANÁLISIS DE RESULTADOS:
+------------------------------
+🏆 Mejor precisión: LinkNet (98.42750505455369%)
+🏃 Entrenamiento más rápido: CCNet (8.5 min)
+⚡ Inferencia más rápida: LinkNet (0.8 ms)
+💡 Más eficiente en parámetros: HRNet (0.9M)
+
+RECOMENDACIONES:
+- Para producción (velocidad): LinkNet
+- Para experimentación rápida: CCNet
+- Para máxima precisión: LinkNet
+- Para recursos limitados: HRNet

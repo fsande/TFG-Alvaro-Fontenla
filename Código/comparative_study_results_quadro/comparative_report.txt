@@ -1,0 +1,41 @@
+ESTUDIO COMPARATIVO DE ARQUITECTURAS PARA SEGMENTACIÓN DE CARRETERAS
+======================================================================
+
+CONFIGURACIÓN DEL EXPERIMENTO:
+------------------------------
+data_dir: processed_sentinel2
+num_classes: 2
+model_width: 32
+rgb_channels: 3
+msi_channels: 10
+epochs: 50
+batch_size: 4
+learning_rate: 0.001
+weight_decay: 0.0001
+num_workers: 2
+use_class_weights: True
+road_weight: 8.0
+train_split: 0.8
+val_split: 0.2
+seed: 42
+val_frequency: 5
+save_frequency: 10
+device: cuda
+sentinel2: {'target_resolution': 10, 'osm_buffer_meters': 5, 'min_road_pixels': 10, 'crop_size': 512, 'max_crops_per_scene': 50}
+augmentation: {'enabled': True, 'rotation': True, 'flip': True, 'brightness': 0.1, 'contrast': 0.1}
+
+RESULTADOS COMPARATIVOS:
+------------------------------
+Architecture                          Description   IoU (%)  mIoU (%)  F1-Score (%)  Precision (%)  Recall (%)  Parameters (M)  Inference Time (ms)
+   D-LinkNet     LinkNet con dilated convolutions 97.128183 98.480448     98.543168      98.467482   98.618981       10.949730            12.660573
+     LinkNet Encoder-decoder con skip connections 94.709923 97.167493     97.283093      97.948062   96.627103        6.228066             9.688878
+       DANet               Dual Attention Network 93.500660 96.555819     96.641174      96.014388   97.276207        0.907010            18.786907
+       CCNet        Criss-Cross Attention Network 90.749317 95.076755     95.150340      94.373320   95.940272        0.874786            12.224307
+       HRNet              High-Resolution Network 89.183448 94.363731     94.282501      92.698625   95.921454        0.870594            12.216887
+     MSFANet  Multiscale Fusion Attention Network 70.447544 84.177264     82.661842      82.486087   82.838358        9.075116            74.556997
+
+ANÁLISIS DE RESULTADOS:
+------------------------------
+Mejor arquitectura por IoU: LinkNet (94.70992309415365 %)
+Arquitectura más eficiente: LinkNet
+Arquitectura más liviana: HRNet

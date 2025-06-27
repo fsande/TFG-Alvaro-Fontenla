@@ -1,0 +1,20 @@
+ANÁLISIS DE EFICIENCIA TEMPORAL
+==================================================
+
+RANKING DE EFICIENCIA GLOBAL:
+------------------------------
+1. HRNet: Score = 65.799
+2. CCNet: Score = 60.599
+3. DANet: Score = 60.158
+4. LinkNet: Score = 51.312
+5. D-LinkNet: Score = 39.180
+6. MSFANet: Score = 9.940
+
+MEJORES EN CADA CATEGORÍA:
+------------------------------
+🏃 Más rápido en entrenamiento: CCNet (8.5 min)
+⚡ Más rápido en inferencia: LinkNet (0.8 ms)
+🎯 Mayor precisión: LinkNet (98.4%)
+💡 Más eficiente temporalmente: LinkNet (10.700 IoU/min)
+🔧 Más eficiente computacionalmente: DANet (102.593 IoU/M_params)
+🚀 Mejor eficiencia global: HRNet (Score: 65.799)

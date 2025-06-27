@@ -1,0 +1,21 @@
+{
+  "model_name": "MSFANet",
+  "total_training_time_minutes": 28.691433791195355,
+  "avg_epoch_time_seconds": 5.501754255915682,
+  "avg_batch_time_ms": 129.42360501612225,
+  "avg_forward_time_ms": 47.34820456119875,
+  "avg_backward_time_ms": 72.75480810490747,
+  "avg_validation_time_seconds": 1.1157385701934497,
+  "memory_usage": {
+    "peak_memory_mb": 3845.740234375,
+    "current_memory_mb": 217.9404296875,
+    "cached_memory_mb": 4556.0
+  },
+  "statistics": {
+    "total_epochs": 300,
+    "total_batches": 12000,
+    "forward_time_std": 0.5495044342393863,
+    "backward_time_std": 0.6808987437423983,
+    "batch_time_std": 1.7693761621326305
+  }
+}
