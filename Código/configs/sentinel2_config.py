@@ -99,7 +99,7 @@ class Sentinel2Config:
             'road_buffer_geographic': 0.00005,  # Buffer for roads in geographic CRS (degrees)
             'building_buffer_projected': 5,   # Buffer for buildings in projected CRS (meters)
             'building_buffer_geographic': 0.00005,  # Buffer for buildings in geographic CRS (degrees)
-            'max_area_degrees': 1.0,        # Maximum area for OSM queries (degrees²)
+            'max_area_degrees': 1.0,        # Maximum area for OSM queries (degrees squared)
             'fallback_margin': 0.1          # Margin to reduce area in large queries (degrees)
         }
         
