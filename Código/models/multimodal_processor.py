@@ -33,6 +33,6 @@ class MultiModalProcessor(nn.Module):
         return F.relu(self.fusion_conv(fused))
 
 
-def create_multimodal_processor(rgb_channels=3, msi_channels=10):
+def create_multimodal_processor(rgb_channels=3, msi_channels=9):
     """Factory function to create MultiModalProcessor instance"""
     return MultiModalProcessor(rgb_channels=rgb_channels, msi_channels=msi_channels)
