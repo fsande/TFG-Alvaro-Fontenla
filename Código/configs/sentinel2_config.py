@@ -124,7 +124,7 @@ class Sentinel2Config:
             'num_classes': 2,
             'model_width': 32,
             'rgb_channels': 3,
-            'msi_channels': 10
+            'msi_channels': 9
         }
         
         # Directory config
