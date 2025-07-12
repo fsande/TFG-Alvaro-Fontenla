@@ -24,6 +24,7 @@ warnings.filterwarnings('ignore')
 
 from sentinel2_config import Sentinel2Config, get_global_config
 from sentinel2_dataset import Sentinel2Dataset
+from osm_processing import OSMMaskGenerator
 
 class Sentinel2Processor:
     """Processor for Sentinel-2 data"""
@@ -33,7 +34,7 @@ class Sentinel2Processor:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.config = get_global_config()
-        self.osm_extractor = OSMRoadExtractor()
+        self.osm_mask_generator = OSMMaskGenerator()
         
     def find_sentinel2_scenes(self):
         """Find all Sentinel-2 scenes available"""
@@ -159,43 +160,9 @@ class Sentinel2Processor:
             return ms_image
         return None
     
-    def create_road_mask_from_osm(self, geo_metadata, image_shape):
-        """Road mask generation"""
-        try:
-            # Transform bounds to WGS84 for OSM
-            bounds = geo_metadata['bounds']
-            native_crs = geo_metadata['crs']
-            
-            if native_crs != 'EPSG:4326':
-                wgs84_bounds = transform_bounds(
-                    native_crs, 'EPSG:4326', 
-                    bounds.left, bounds.bottom, bounds.right, bounds.top
-                )
-            else:
-                wgs84_bounds = bounds
-            
-            # Obtain roads from OSM
-            roads_gdf = self.osm_extractor.get_roads_from_bbox(wgs84_bounds)
-            
-            # Reproject to native CRS and apply buffer
-            roads_gdf = roads_gdf.to_crs(native_crs)
-            buffer_distance = 5 if native_crs.is_projected else 0.00005
-            roads_gdf['geometry'] = roads_gdf.geometry.buffer(buffer_distance)
-            
-            # Rasterize roads
-            mask = rasterize(
-                [(mapping(geom), 1) for geom in roads_gdf.geometry if geom.is_valid],
-                out_shape=image_shape[:2],
-                transform=geo_metadata['transform'],
-                fill=0,
-                dtype=np.uint8,
-                all_touched=True
-            )
-            
-            return mask
-            
-        except Exception as e:
-            print(f"Error creating OSM mask: {e}")
+    def create_road_mask(self, geo_metadata, image_shape):
+        """Road mask generation using OSM processing module"""
+        return self.osm_mask_generator.create_road_mask_from_osm(geo_metadata, image_shape)
     
     def extract_crops(self, rgb_img, ms_img, mask, crop_size=512, min_road_pixels=50):
         """Dataset crops extraction"""
@@ -244,7 +211,7 @@ class Sentinel2Processor:
         
         print(f"RGB shape: {rgb_img.shape}, MS shape: {ms_img.shape}")
         
-        road_mask = self.create_road_mask_from_osm(geo_metadata, rgb_img.shape)
+        road_mask = self.create_road_mask(geo_metadata, rgb_img.shape)
         combined_mask = road_mask.copy()
         
         # Extract crops
@@ -327,145 +294,6 @@ class Sentinel2Processor:
         print(f"Data saved in: {self.output_dir}")
         
         return total_crops
-
-class OSMRoadExtractor:
-    """OSM road extractor class for road mask generation"""
-    
-    def __init__(self, cache_dir="osm_cache"):
-        self.cache_dir = Path(cache_dir)
-        self.cache_dir.mkdir(exist_ok=True)
-        
-    def get_roads_from_bbox(self, bbox, max_retries=3):
-        """
-        Get roads from OSM for a bounding box
-        bbox: (minx, miny, maxx, maxy) in WGS84 coordinates
-        """
-        # Validate coordinates
-        minx, miny, maxx, maxy = bbox
-        
-        print(f"Querying OSM for bbox: [{minx:.6f}, {miny:.6f}, {maxx:.6f}, {maxy:.6f}]")
-        
-        # Verify that the coordinates are in a valid range for WGS84
-        if not (-180 <= minx <= 180 and -180 <= maxx <= 180 and -90 <= miny <= 90 and -90 <= maxy <= 90):
-            print(f"Coordinates out of range WGS84: {bbox}")
-            return gpd.GeoDataFrame()
-        
-        if minx >= maxx or miny >= maxy:
-            print(f"Invalid bbox: minx >= maxx or miny >= maxy")
-            return gpd.GeoDataFrame()
-        
-        # Verify area size (no more than max area to avoid timeouts)
-        area_size = (maxx - minx) * (maxy - miny)
-        max_area = get_global_config().OSM_CONFIG['max_area_degrees']
-        if area_size > max_area:
-            print(f"Large area ({area_size:.3f} degrees squared), limiting search")
-            # Take only the center of the area
-            center_x, center_y = (minx + maxx) / 2, (miny + maxy) / 2
-            margin = get_global_config().OSM_CONFIG['fallback_margin']
-            minx, miny = center_x - margin, center_y - margin
-            maxx, maxy = center_x + margin, center_y + margin
-        
-        cache_file = self.cache_dir / f"roads_{minx:.4f}_{miny:.4f}_{maxx:.4f}_{maxy:.4f}.geojson"
-        
-        # Verify cache
-        if cache_file.exists():
-            try:
-                print(f"Loading from cache: {cache_file.name}")
-                return gpd.read_file(cache_file)
-            except Exception as e:
-                print(f"Error reading cache: {e}")
-                cache_file.unlink()  # Delete corrupted cache
-        
-        # Query Overpass API
-        overpass_url = "http://overpass-api.de/api/interpreter"
-        
-        overpass_query = f"""
-        [out:json][timeout:120];
-        (
-          way["highway"]({miny:.6f},{minx:.6f},{maxy:.6f},{maxx:.6f});
-        );
-        out geom;
-        """
-        
-        print(f"Query OSM: area {(maxx-minx)*111:.1f}km x {(maxy-miny)*111:.1f}km")
-        
-        for attempt in range(max_retries):
-            try:
-                print(f"Downloading roads from OSM... (attempt {attempt+1}/{max_retries})")
-                
-                response = requests.post(
-                    overpass_url, 
-                    data=overpass_query, 
-                    timeout=180,
-                    headers={'User-Agent': 'MSFANet-Sentinel2-Processor/1.0'}
-                )
-                
-                print(f"OSM response: {response.status_code}")
-                
-                if response.status_code != 200:
-                    print(f"HTTP error {response.status_code}: {response.text[:200]}")
-                    if attempt < max_retries - 1:
-                        time.sleep(10)
-                        continue
-                    else:
-                        return gpd.GeoDataFrame()
-                
-                data = response.json()
-                
-                # Process response
-                roads = []
-                elements = data.get('elements', [])
-                print(f"Received elements: {len(elements)}")
-                
-                for element in elements:
-                    if element['type'] == 'way' and 'geometry' in element:
-                        coords = [(node['lon'], node['lat']) for node in element['geometry']]
-                        if len(coords) >= 2:
-                            highway_type = element.get('tags', {}).get('highway', 'unknown')
-                            
-                            # Filter relevant road types
-                            if highway_type in ['motorway', 'trunk', 'primary', 'secondary', 
-                                              'tertiary', 'residential', 'unclassified', 'service']:
-                                road = {
-                                    'geometry': LineString(coords),
-                                    'highway': highway_type,
-                                    'osm_id': element.get('id')
-                                }
-                                roads.append(road)
-                
-                print(f"Valid roads found: {len(roads)}")
-                
-                if roads:
-                    gdf = gpd.GeoDataFrame(roads, crs='EPSG:4326')
-                    
-                    # Save in cache
-                    try:
-                        gdf.to_file(cache_file, driver='GeoJSON')
-                        print(f"Cache saved: {cache_file.name}")
-                    except Exception as e:
-                        print(f"Error saving cache: {e}")
-                    
-                    print(f"Downloaded {len(gdf)} roads")
-                    return gdf
-                else:
-                    print("No valid roads found")
-                    return gpd.GeoDataFrame()
-                    
-            except requests.exceptions.Timeout:
-                print(f"Timeout in attempt {attempt+1}")
-                if attempt < max_retries - 1:
-                    time.sleep(15)
-            except requests.exceptions.RequestException as e:
-                print(f"Connection error (attempt {attempt+1}): {e}")
-                if attempt < max_retries - 1:
-                    time.sleep(10)
-            except Exception as e:
-                print(f"Unexpected error (attempt {attempt+1}): {e}")
-                if attempt < max_retries - 1:
-                    time.sleep(5)
-                    
-        print("All attempts failed")
-        return gpd.GeoDataFrame()
 
 def main():
     """Main function"""
