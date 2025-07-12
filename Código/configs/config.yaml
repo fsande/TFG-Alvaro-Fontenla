@@ -44,8 +44,6 @@ transfer_learning:
 sentinel2:
   target_resolution: 10
   osm_buffer_meters: 5
-  min_road_pixels: 50
-  crop_size: 512
   
 # Data augmentation
 augmentation:
