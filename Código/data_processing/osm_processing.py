@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
 OSM processing script
 Handles all OpenStreetMap data extraction and processing functionality
